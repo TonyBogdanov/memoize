@@ -1,0 +1,20 @@
+{
+    "name": "tonybogdanov/memoize",
+    "description": "Object & class-level in-memory caching",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tony Bogdanov",
+            "email": "support@tonybogdanov.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TonyBogdanov\\Memoize\\": "src/TonyBogdanov/Memoize/"
+        }
+    }
+}
