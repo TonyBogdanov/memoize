@@ -56,6 +56,12 @@ trait MemoizeTrait {
 
     }
 
+    protected static function purgeMemoidsStatic() {
+
+        static::$__MEMOIDS_STATIC__ = [];
+
+    }
+
     /**
      * @param string $key
      * @param callable $provider
@@ -79,7 +85,7 @@ trait MemoizeTrait {
      *
      * @return $this
      */
-    protected function dememoize( string $key ) {
+    protected function dememoize( string $key ): self {
 
         if ( array_key_exists( $key, $this->__MEMOIDS__ ) ) {
 
@@ -87,6 +93,16 @@ trait MemoizeTrait {
 
         }
 
+        return $this;
+
+    }
+
+    /**
+     * @return $this
+     */
+    protected function purgeMemoids(): self {
+
+        $this->__MEMOIDS__ = [];
         return $this;
 
     }
