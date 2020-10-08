@@ -2,11 +2,13 @@
 
 [![Latest Stable Version](https://poser.pugx.org/tonybogdanov/memoize/v/stable)](https://packagist.org/packages/tonybogdanov/memoize)
 [![License](https://poser.pugx.org/tonybogdanov/memoize/license)](https://packagist.org/packages/tonybogdanov/memoize)
+![Build](https://github.com/tonybogdanov/memoize/workflows/build/badge.svg)
+[![Coverage](http://tonybogdanov.github.io/memoize/coverage.svg)](http://tonybogdanov.github.io/memoize/index.html)
 
 ## Installation
 
 ```bash
-composer require tonybogdanov/memoize
+composer require tonybogdanov/memoize:^2.0
 ```
 
 ## Usage
@@ -44,6 +46,6 @@ class ClassUsingCaching {
 You can also manually removed memoized values:
 
 ```php
-StaticClass::dememoizeStatic( 'key' );
-$object->dememoize( 'key' );
+StaticClass::unmemoizeStatic( 'key' );
+$object->unmemoize( 'key' );
 ```

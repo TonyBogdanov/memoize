@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+cd "$( dirname "$( realpath "$0" )" )/.."
+set -ex
+
+./vendor/bin/phpunit \
+    --coverage-html ./coverage \
+    --coverage-clover ./coverage/coverage.xml
