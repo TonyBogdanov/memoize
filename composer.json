@@ -27,13 +27,13 @@
     },
     "archive": {
         "exclude": [
-            ".idea",
-            ".github",
-            "bin",
-            "tests",
-            ".gitignore",
-            "phpunit.xml",
-            "README.md"
+            "/.idea",
+            "/.github",
+            "/bin",
+            "/tests",
+            "/.gitignore",
+            "/phpunit.xml",
+            "/README.md"
         ]
     }
 }
