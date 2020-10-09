@@ -24,16 +24,5 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9"
-    },
-    "archive": {
-        "exclude": [
-            "/.idea",
-            "/.github",
-            "/bin",
-            "/tests",
-            "/.gitignore",
-            "/phpunit.xml",
-            "/README.md"
-        ]
     }
 }
