@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1602222296">
-  <project timestamp="1602222296">
+<coverage generated="1602222812">
+  <project timestamp="1602222812">
     <file name="/home/runner/work/memoize/memoize/src/Exceptions/UnknownOwnerException.php">
       <class name="TonyBogdanov\Memoize\Exceptions\UnknownOwnerException" namespace="global">
         <metrics complexity="3" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
