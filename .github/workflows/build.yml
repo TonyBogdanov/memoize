@@ -31,7 +31,7 @@ jobs:
 
             - name: Setup PHP
               if: "!contains(github.event.head_commit.message, '[no-test]')"
-              uses: shivammathur/setup-php@v1
+              uses: shivammathur/setup-php@v2
               with:
                   php-version: 7.4
                   ini-values: memory_limit=4G, variables_order=EGPCS

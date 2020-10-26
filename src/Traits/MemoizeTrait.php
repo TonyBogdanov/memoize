@@ -47,11 +47,11 @@ trait MemoizeTrait {
     }
 
     /**
-     * @param string $key
+     * @param string|null $key
      *
      * @return $this
      */
-    protected function unmemoize( string $key ): self {
+    protected function unmemoize( string $key = null ): self {
 
         Memoize::unmemoize( $this, $key );
         return $this;
