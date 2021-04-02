@@ -49,3 +49,10 @@ You can also manually removed memoized values:
 StaticClass::unmemoizeStatic( 'key' );
 $object->unmemoize( 'key' );
 ```
+
+You can also toggle memoization globally, which can be useful for testing:
+
+```php
+Memoize::enable();
+Memoize::disable();
+```

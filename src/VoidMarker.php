@@ -19,13 +19,13 @@ final class VoidMarker {
      */
     public static function get(): VoidMarker {
 
-        if ( ! isset( static::$reference ) ) {
+        if ( ! isset( self::$reference ) ) {
 
-            static::$reference = new static();
+            self::$reference = new self();
 
         }
 
-        return static::$reference;
+        return self::$reference;
 
     }
 

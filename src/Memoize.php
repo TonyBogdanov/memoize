@@ -14,6 +14,11 @@ use WeakReference;
 final class Memoize {
 
     /**
+     * @var bool
+     */
+    private static bool $enabled = true;
+
+    /**
      * @var SplObjectStorage[]
      */
     private static array $storage = [];
@@ -41,6 +46,18 @@ final class Memoize {
 
     }
 
+    public static function enable() {
+
+        self::$enabled = true;
+
+    }
+
+    public static function disable() {
+
+        self::$enabled = false;
+
+    }
+
     /**
      * @param $owner
      * @param string $key
@@ -50,25 +67,31 @@ final class Memoize {
      */
     public static function memoize( $owner, string $key, callable $provider ) {
 
-        [ $group, $ref ] = static::owner( $owner );
+        if ( ! self::$enabled ) {
 
-        if ( ! isset( static::$storage[ $group ] ) ) {
-
-            static::$storage[ $group ] = new SplObjectStorage();
+            return call_user_func( $provider );
 
         }
 
-        if ( ! isset( static::$storage[ $group ][ $ref ] ) ) {
+        [ $group, $ref ] = self::owner( $owner );
 
-            static::$storage[ $group ][ $ref ] = [];
+        if ( ! isset( self::$storage[ $group ] ) ) {
+
+            self::$storage[ $group ] = new SplObjectStorage();
 
         }
 
-        $data = static::$storage[ $group ][ $ref ];
+        if ( ! isset( self::$storage[ $group ][ $ref ] ) ) {
+
+            self::$storage[ $group ][ $ref ] = [];
+
+        }
+
+        $data = self::$storage[ $group ][ $ref ];
         if ( ! array_key_exists( $key, $data ) ) {
 
             $data[ $key ] = call_user_func( $provider );
-            static::$storage[ $group ][ $ref ] = $data;
+            self::$storage[ $group ][ $ref ] = $data;
 
         }
 
@@ -84,14 +107,14 @@ final class Memoize {
 
         if ( ! isset( $owner ) ) {
 
-            static::$storage = [];
+            self::$storage = [];
             return;
 
         }
 
-        [ $group, $ref ] = static::owner( $owner );
+        [ $group, $ref ] = self::owner( $owner );
 
-        if ( ! isset( static::$storage[ $group ] ) || ! isset( static::$storage[ $group ][ $ref ] ) ) {
+        if ( ! isset( self::$storage[ $group ] ) || ! isset( self::$storage[ $group ][ $ref ] ) ) {
 
             return;
 
@@ -99,21 +122,21 @@ final class Memoize {
 
         if ( ! isset( $key ) ) {
 
-            unset( static::$storage[ $group ][ $ref ] );
+            unset( self::$storage[ $group ][ $ref ] );
             return;
 
         }
 
-        if ( ! array_key_exists( $key, static::$storage[ $group ][ $ref ] ) ) {
+        if ( ! array_key_exists( $key, self::$storage[ $group ][ $ref ] ) ) {
 
             return;
 
         }
 
-        $data = static::$storage[ $group ][ $ref ];
+        $data = self::$storage[ $group ][ $ref ];
         unset( $data[ $key ] );
 
-        static::$storage[ $group ][ $ref ] = $data;
+        self::$storage[ $group ][ $ref ] = $data;
 
     }
 

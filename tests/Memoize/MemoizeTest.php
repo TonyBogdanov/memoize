@@ -228,4 +228,29 @@ class MemoizeTest extends TestCase {
 
     }
 
+    public function testEnableDisable() {
+
+        $calls = 0;
+        $provider = function () use ( &$calls ) {
+
+            return ++$calls;
+
+        };
+
+        Memoize::disable();
+
+        $this->assertEquals( 1, Memoize::memoize( $this, __METHOD__, $provider ) );
+        $this->assertEquals( 2, Memoize::memoize( $this, __METHOD__, $provider ) );
+        $this->assertEquals( 3, Memoize::memoize( $this, __METHOD__, $provider ) );
+
+        $this->assertEquals( 3, $calls );
+        Memoize::enable();
+
+        $this->assertEquals( 4, Memoize::memoize( $this, __METHOD__, $provider ) );
+        $this->assertEquals( 4, Memoize::memoize( $this, __METHOD__, $provider ) );
+
+        $this->assertEquals( 4, $calls );
+
+    }
+
 }
