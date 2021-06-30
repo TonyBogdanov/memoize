@@ -20,18 +20,14 @@ trait MemoizeTrait {
      * @return mixed
      */
     protected static function memoizeStatic( string $key, callable $provider ) {
-
         return Memoize::memoize( static::class, $key, $provider );
-
     }
 
     /**
      * @param string $key
      */
-    protected static function unmemoizeStatic( string $key ) {
-
+    protected static function unmemoizeStatic( string $key ): void {
         Memoize::unmemoize( static::class, $key );
-
     }
 
     /**
@@ -41,9 +37,7 @@ trait MemoizeTrait {
      * @return mixed
      */
     protected function memoize( string $key, callable $provider ) {
-
         return Memoize::memoize( $this, $key, $provider );
-
     }
 
     /**
@@ -52,10 +46,8 @@ trait MemoizeTrait {
      * @return $this
      */
     protected function unmemoize( string $key = null ): self {
-
         Memoize::unmemoize( $this, $key );
         return $this;
-
     }
 
 }

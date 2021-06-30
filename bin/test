@@ -3,4 +3,4 @@
 cd "$( dirname "$( realpath "$0" )" )/.."
 set -ex
 
-./vendor/bin/phpunit
+./vendor/phpunit/phpunit/phpunit

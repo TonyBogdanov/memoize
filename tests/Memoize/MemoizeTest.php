@@ -23,10 +23,8 @@ class MemoizeTest extends TestCase {
     public function matrixSimple(): array {
 
         return [
-
             [ 'class', new State() ],
             [ 'object', new State() ],
-
         ];
 
     }
@@ -37,12 +35,10 @@ class MemoizeTest extends TestCase {
     public function matrixAdvanced(): array {
 
         return [
-
             [ 'class', 'first', new State() ],
             [ 'class', 'second', new State() ],
             [ 'object', 'first', new State() ],
             [ 'object', 'second', new State() ],
-
         ];
 
     }
@@ -53,7 +49,6 @@ class MemoizeTest extends TestCase {
     public function matrixComplete(): array {
 
         return [
-
             [ 'class', 'first', 'a', new State() ],
             [ 'class', 'first', 'b', new State() ],
             [ 'class', 'second', 'a', new State() ],
@@ -62,7 +57,6 @@ class MemoizeTest extends TestCase {
             [ 'object', 'first', 'b', new State() ],
             [ 'object', 'second', 'a', new State() ],
             [ 'object', 'second', 'b', new State() ],
-
         ];
 
     }
@@ -75,7 +69,7 @@ class MemoizeTest extends TestCase {
      * @param string $key
      * @param State $state
      */
-    public function testMemoize( string $group, string $instance, string $key, State $state ) {
+    public function testMemoize( string $group, string $instance, string $key, State $state ): void {
 
         $owner = $state->owners[ $group ][ $instance ][ $key ];
         $provider = $state->providers[ $group ][ $instance ][ $key ];
@@ -99,7 +93,7 @@ class MemoizeTest extends TestCase {
      * @param string $key
      * @param State $state
      */
-    public function testUnmemoizeWithKey( string $group, string $instance, string $key, State $state ) {
+    public function testUnmemoizeWithKey( string $group, string $instance, string $key, State $state ): void {
 
         $owner = $state->owners[ $group ][ $instance ][ $key ];
         $provider = $state->providers[ $group ][ $instance ][ $key ];
@@ -123,7 +117,7 @@ class MemoizeTest extends TestCase {
      * @param string $instance
      * @param State $state
      */
-    public function testUnmemoizeWithoutKey( string $group, string $instance, State $state ) {
+    public function testUnmemoizeWithoutKey( string $group, string $instance, State $state ): void {
 
         $owner = $state->owners[ $group ][ $instance ]['a']; // same owner for both a and b.
 
@@ -157,7 +151,7 @@ class MemoizeTest extends TestCase {
      * @param string $group
      * @param State $state
      */
-    public function testUnmemoizeWithoutOwner( string $group, State $state ) {
+    public function testUnmemoizeWithoutOwner( string $group, State $state ): void {
 
         $ownerFirst = $state->owners[ $group ]['first']['a']; // same owner for both a and b.
         $ownerSecond = $state->owners[ $group ]['second']['a']; // same owner for both a and b.
@@ -204,7 +198,7 @@ class MemoizeTest extends TestCase {
 
     }
 
-    public function testUnmemoizeUnknownKey() {
+    public function testUnmemoizeUnknownKey(): void {
 
         Memoize::memoize( TestClass1::class, 'a', function () {} );
         Memoize::unmemoize( TestClass1::class, '123' );
@@ -213,28 +207,21 @@ class MemoizeTest extends TestCase {
 
     }
 
-    public function testUnmemoizeUnknownOwner() {
-
+    public function testUnmemoizeUnknownOwner(): void {
         Memoize::unmemoize( TestClass1::class );
-
         $this->assertTrue( true ); // just assert no errors were thrown
-
     }
 
-    public function testUnknownOwner() {
-
+    public function testUnknownOwner(): void {
         $this->expectException( UnknownOwnerException::class );
         Memoize::memoize( '123', 'a', function () {} );
-
     }
 
-    public function testEnableDisable() {
+    public function testEnableDisable(): void {
 
         $calls = 0;
         $provider = function () use ( &$calls ) {
-
             return ++$calls;
-
         };
 
         Memoize::disable();

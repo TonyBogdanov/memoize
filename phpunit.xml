@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-         colors="true"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         cacheResultFile=".phpunit.cache/test-results"
+         executionOrder="depends,defects"
+         forceCoversAnnotation="false"
+         beStrictAboutCoversAnnotation="false"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
          stopOnError="true"
-         stopOnFailure="true">
+         stopOnFailure="true"
+         verbose="true">
 
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </coverage>
+    <php>
+        <ini name="error_reporting" value="-1"/>
+    </php>
 
-  <testsuites>
-    <testsuite name="Memoization">
-      <directory>tests/Memoize</directory>
-    </testsuite>
-  </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+
+    <testsuites>
+        <testsuite name="Memoization">
+            <directory>tests/Memoize</directory>
+        </testsuite>
+    </testsuites>
 
 </phpunit>

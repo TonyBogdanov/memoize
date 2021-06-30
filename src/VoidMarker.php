@@ -9,9 +9,7 @@ namespace TonyBogdanov\Memoize;
  */
 final class VoidMarker {
 
-    /**
-     * @var VoidMarker
-     */
+    /** @var VoidMarker */
     private static VoidMarker $reference;
 
     /**
@@ -20,9 +18,7 @@ final class VoidMarker {
     public static function get(): VoidMarker {
 
         if ( ! isset( self::$reference ) ) {
-
             self::$reference = new self();
-
         }
 
         return self::$reference;

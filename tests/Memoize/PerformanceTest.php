@@ -13,15 +13,9 @@ use TonyBogdanov\Memoize\Tests\Helper\TestClass1;
  */
 class PerformanceTest extends TestCase {
 
-    public function work() {
-
+    public function work(): void {
         $v = 10000;
-        while ( 1 < $v ) {
-
-            $v -= 2;
-
-        }
-
+        while ( 1 < $v ) { $v -= 2; }
     }
 
     /**
@@ -36,13 +30,9 @@ class PerformanceTest extends TestCase {
         $result = array_fill( 0, $callbacksCount, 0 );
 
         for ( $i = 0; $i < $iterations; $i++ ) {
-
             for ( $j = 0; $j < $callbacksCount; $j++ ) {
-
                 $result[ $j ] += call_user_func( $callbacks[ $j ] );
-
             }
-
         }
 
         return $result;
@@ -55,11 +45,8 @@ class PerformanceTest extends TestCase {
     public function loopNative(): float {
 
         $start = microtime( true );
-
         for ( $i = 0; $i < 100; $i++ ) {
-
             call_user_func( [ $this, 'work' ] );
-
         }
 
         return microtime( true ) - $start;
@@ -76,14 +63,11 @@ class PerformanceTest extends TestCase {
         $start = microtime( true );
 
         for ( $i = 0; $i < 100; $i++ ) {
-
             Memoize::memoize( __CLASS__, __METHOD__, [ $this, 'work' ] );
+
             if ( $purge ) {
-
                 Memoize::unmemoize( __CLASS__, __METHOD__ );
-
             }
-
         }
 
         return microtime( true ) - $start;
@@ -94,9 +78,7 @@ class PerformanceTest extends TestCase {
      * @return float
      */
     public function loopClassPurge(): float {
-
         return $this->loopClass( true );
-
     }
 
     /**
@@ -107,16 +89,12 @@ class PerformanceTest extends TestCase {
     public function loopObject( bool $purge = false ): float {
 
         $start = microtime( true );
-
         for ( $i = 0; $i < 100; $i++ ) {
-
             Memoize::memoize( $this, __METHOD__, [ $this, 'work' ] );
+
             if ( $purge ) {
-
                 Memoize::unmemoize( $this, __METHOD__ );
-
             }
-
         }
 
         return microtime( true ) - $start;
@@ -127,22 +105,18 @@ class PerformanceTest extends TestCase {
      * @return float
      */
     public function loopObjectPurge(): float {
-
         return $this->loopObject( true );
-
     }
 
-    public function testCPU1() {
+    public function testCPU1(): void {
 
         [ $native, $class, $classPurge, $object, $objectPurge ] = $this->median(
-
             5,
             [ $this, 'loopNative' ],
             [ $this, 'loopClass' ],
             [ $this, 'loopClassPurge' ],
             [ $this, 'loopObject' ],
             [ $this, 'loopObjectPurge' ]
-
         );
 
         // Memoized is at least x10 faster than native.
@@ -158,14 +132,12 @@ class PerformanceTest extends TestCase {
 
     }
 
-    public function testCPU2() {
+    public function testCPU2(): void {
 
         [ $class, $object ] = $this->median(
-
             1000,
             [ $this, 'loopClass' ],
             [ $this, 'loopObject' ]
-
         );
 
         // Memoized do not differ more than 25% of each other.
@@ -173,34 +145,24 @@ class PerformanceTest extends TestCase {
 
     }
 
-    public function testMemoryOverhead() {
+    public function testMemoryOverhead(): void {
 
         $provider = function (): array {
-
-            return array_map( function () {
-
-                return mt_rand( 0, 1024 );
-
-            }, array_fill( 0, 1024, 0 ) );
-
+            return array_map( function () { return mt_rand( 0, 1024 ); }, array_fill( 0, 1024, 0 ) );
         };
 
         $bag = [];
         $start = memory_get_usage( true );
 
         for ( $i = 0; $i < 20000; $i++ ) {
-
             $bag[] = call_user_func( $provider );
-
         }
 
         $reference = memory_get_usage( true ) - $start;
         $start = memory_get_usage( true );
 
         for ( $i = 0; $i < 20000; $i++ ) {
-
             $bag[] = Memoize::memoize( TestClass1::class, 'a' . $i, $provider );
-
         }
 
         // Overhead remains under 10%.

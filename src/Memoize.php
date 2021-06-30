@@ -13,14 +13,10 @@ use WeakReference;
  */
 final class Memoize {
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private static bool $enabled = true;
 
-    /**
-     * @var SplObjectStorage[]
-     */
+    /** @var SplObjectStorage[] */
     private static array $storage = [];
 
     /**
@@ -31,31 +27,23 @@ final class Memoize {
     private static function owner( $owner ): array {
 
         if ( is_object( $owner ) ) {
-
             return [ get_class( $owner ), WeakReference::create( $owner ) ];
-
         }
 
         if ( is_string( $owner ) && class_exists( $owner ) ) {
-
             return [ $owner, VoidMarker::get() ];
-
         }
 
         throw new UnknownOwnerException( $owner );
 
     }
 
-    public static function enable() {
-
+    public static function enable(): void {
         self::$enabled = true;
-
     }
 
-    public static function disable() {
-
+    public static function disable(): void {
         self::$enabled = false;
-
     }
 
     /**
@@ -68,23 +56,16 @@ final class Memoize {
     public static function memoize( $owner, string $key, callable $provider ) {
 
         if ( ! self::$enabled ) {
-
             return call_user_func( $provider );
-
         }
 
         [ $group, $ref ] = self::owner( $owner );
-
         if ( ! isset( self::$storage[ $group ] ) ) {
-
             self::$storage[ $group ] = new SplObjectStorage();
-
         }
 
         if ( ! isset( self::$storage[ $group ][ $ref ] ) ) {
-
             self::$storage[ $group ][ $ref ] = [];
-
         }
 
         $data = self::$storage[ $group ][ $ref ];
@@ -103,34 +84,25 @@ final class Memoize {
      * @param null $owner
      * @param string|null $key
      */
-    public static function unmemoize( $owner = null, string $key = null ) {
+    public static function unmemoize( $owner = null, string $key = null ): void {
 
         if ( ! isset( $owner ) ) {
-
             self::$storage = [];
             return;
-
         }
 
         [ $group, $ref ] = self::owner( $owner );
-
         if ( ! isset( self::$storage[ $group ] ) || ! isset( self::$storage[ $group ][ $ref ] ) ) {
-
             return;
-
         }
 
         if ( ! isset( $key ) ) {
-
             unset( self::$storage[ $group ][ $ref ] );
             return;
-
         }
 
         if ( ! array_key_exists( $key, self::$storage[ $group ][ $ref ] ) ) {
-
             return;
-
         }
 
         $data = self::$storage[ $group ][ $ref ];
