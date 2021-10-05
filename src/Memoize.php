@@ -48,6 +48,26 @@ final class Memoize {
 
     /**
      * @param $owner
+     * @param string|null $key
+     * @return bool
+     */
+    public static function isMemoized( $owner = null, string $key = null ): bool {
+
+        if ( ! self::$enabled || ! isset( $owner ) ) {
+            return false;
+        }
+
+        [ $group, $ref ] = self::owner( $owner );
+        if ( ! isset( self::$storage[ $group ] ) || ! isset( self::$storage[ $group ][ $ref ] ) ) {
+            return false;
+        }
+
+        return ! isset( $key ) || array_key_exists( $key, self::$storage[ $group ][ $ref ] );
+
+    }
+
+    /**
+     * @param $owner
      * @param string $key
      * @param callable $provider
      *

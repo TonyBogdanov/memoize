@@ -18,6 +18,36 @@ use TonyBogdanov\Memoize\Tests\Helper\TestClass1;
 class MemoizeTest extends TestCase {
 
     /**
+     * @param bool $existsPrior
+     * @param $owner
+     * @param string $key
+     * @param callable $provider
+     * @return mixed
+     */
+    protected function doMemoize( bool $existsPrior, $owner, string $key, callable $provider ) {
+
+        $existsPrior || $this->assertFalse( Memoize::isMemoized( $owner, $key ) );
+        $result = Memoize::memoize( $owner, $key, $provider );
+
+        $this->assertTrue( Memoize::isMemoized( $owner, $key ) );
+        return $result;
+
+    }
+
+    /**
+     * @param null $owner
+     * @param string|null $key
+     */
+    protected function doUnmemoize( bool $existsPrior, $owner = null, string $key = null ): void {
+
+        $existsPrior && $this->assertTrue( Memoize::isMemoized( $owner, $key ) );
+        Memoize::unmemoize( $owner, $key );
+
+        $this->assertFalse( Memoize::isMemoized( $owner, $key ) );
+
+    }
+
+    /**
      * @return array
      */
     public function matrixSimple(): array {
@@ -74,10 +104,10 @@ class MemoizeTest extends TestCase {
         $owner = $state->owners[ $group ][ $instance ][ $key ];
         $provider = $state->providers[ $group ][ $instance ][ $key ];
 
-        $value = Memoize::memoize( $owner, $key, $provider );
+        $value = $this->doMemoize( false, $owner, $key, $provider );
         $this->assertSame( $value, $provider->getValue() );
 
-        $cached = Memoize::memoize( $owner, $key, $provider );
+        $cached = $this->doMemoize( true, $owner, $key, $provider );
         $this->assertSame( $cached, $provider->getValue() );
 
         $state->invoked[ $group ][ $instance ][ $key ] = true;
@@ -98,10 +128,10 @@ class MemoizeTest extends TestCase {
         $owner = $state->owners[ $group ][ $instance ][ $key ];
         $provider = $state->providers[ $group ][ $instance ][ $key ];
 
-        $initial = Memoize::memoize( $owner, $key, $provider );
-        Memoize::unmemoize( $owner, $key );
+        $initial = $this->doMemoize( false, $owner, $key, $provider );
+        $this->doUnmemoize( true, $owner, $key );
 
-        $reInvoked = Memoize::memoize( $owner, $key, $provider );
+        $reInvoked = $this->doMemoize( false, $owner, $key, $provider );
         $this->assertSame( $initial, $reInvoked );
 
         $state->invoked[ $group ][ $instance ][ $key ] = true;
@@ -124,13 +154,13 @@ class MemoizeTest extends TestCase {
         $providerA = $state->providers[ $group ][ $instance ]['a'];
         $providerB = $state->providers[ $group ][ $instance ]['b'];
 
-        $initialA = Memoize::memoize( $owner, 'a', $providerA );
-        $initialB = Memoize::memoize( $owner, 'b', $providerB );
+        $initialA = $this->doMemoize( false, $owner, 'a', $providerA );
+        $initialB = $this->doMemoize( false, $owner, 'b', $providerB );
 
-        Memoize::unmemoize( $owner );
+        $this->doUnmemoize( true, $owner );
 
-        $reInvokedA = Memoize::memoize( $owner, 'a', $providerA );
-        $reInvokedB = Memoize::memoize( $owner, 'b', $providerB );
+        $reInvokedA = $this->doMemoize( false, $owner, 'a', $providerA );
+        $reInvokedB = $this->doMemoize( false, $owner, 'b', $providerB );
 
         $this->assertSame( $initialA, $reInvokedA );
         $this->assertSame( $initialB, $reInvokedB );
@@ -162,19 +192,19 @@ class MemoizeTest extends TestCase {
         $providerFirstB = $state->providers[ $group ]['first']['b'];
         $providerSecondB = $state->providers[ $group ]['second']['b'];
 
-        $initialFirstA = Memoize::memoize( $ownerFirst, 'a', $providerFirstA );
-        $initialSecondA = Memoize::memoize( $ownerSecond, 'a', $providerSecondA );
+        $initialFirstA = $this->doMemoize( false, $ownerFirst, 'a', $providerFirstA );
+        $initialSecondA = $this->doMemoize( false, $ownerSecond, 'a', $providerSecondA );
 
-        $initialFirstB = Memoize::memoize( $ownerFirst, 'b', $providerFirstB );
-        $initialSecondB = Memoize::memoize( $ownerSecond, 'b', $providerSecondB );
+        $initialFirstB = $this->doMemoize( false, $ownerFirst, 'b', $providerFirstB );
+        $initialSecondB = $this->doMemoize( false, $ownerSecond, 'b', $providerSecondB );
 
         Memoize::unmemoize();
 
-        $reInvokedFirstA = Memoize::memoize( $ownerFirst, 'a', $providerFirstA );
-        $reInvokedSecondA = Memoize::memoize( $ownerSecond, 'a', $providerSecondA );
+        $reInvokedFirstA = $this->doMemoize( true, $ownerFirst, 'a', $providerFirstA );
+        $reInvokedSecondA = $this->doMemoize( true, $ownerSecond, 'a', $providerSecondA );
 
-        $reInvokedFirstB = Memoize::memoize( $ownerFirst, 'b', $providerFirstB );
-        $reInvokedSecondB = Memoize::memoize( $ownerSecond, 'b', $providerSecondB );
+        $reInvokedFirstB = $this->doMemoize( true, $ownerFirst, 'b', $providerFirstB );
+        $reInvokedSecondB = $this->doMemoize( true, $ownerSecond, 'b', $providerSecondB );
 
         $this->assertSame( $initialFirstA, $reInvokedFirstA );
         $this->assertSame( $initialSecondA, $reInvokedSecondA );
@@ -200,21 +230,21 @@ class MemoizeTest extends TestCase {
 
     public function testUnmemoizeUnknownKey(): void {
 
-        Memoize::memoize( TestClass1::class, 'a', function () {} );
-        Memoize::unmemoize( TestClass1::class, '123' );
+        $this->doMemoize( false, TestClass1::class, 'a', function () {} );
+        $this->doUnmemoize( false, TestClass1::class, '123' );
 
         $this->assertTrue( true ); // just assert no errors were thrown
 
     }
 
     public function testUnmemoizeUnknownOwner(): void {
-        Memoize::unmemoize( TestClass1::class );
+        $this->doUnmemoize( false, TestClass1::class );
         $this->assertTrue( true ); // just assert no errors were thrown
     }
 
     public function testUnknownOwner(): void {
         $this->expectException( UnknownOwnerException::class );
-        Memoize::memoize( '123', 'a', function () {} );
+        $this->doMemoize( false, '123', 'a', function () {} );
     }
 
     public function testEnableDisable(): void {
@@ -238,6 +268,19 @@ class MemoizeTest extends TestCase {
 
         $this->assertEquals( 4, $calls );
 
+    }
+
+    public function testIsMemoizedDisabled(): void {
+
+        Memoize::memoize( __CLASS__, 'b', function (): int { return 1; } );
+        Memoize::disable();
+
+        $this->assertFalse( Memoize::isMemoized( __CLASS__, 'b' ) );
+
+    }
+
+    public function testIsMemoizedNoOwner(): void {
+        $this->assertFalse( Memoize::isMemoized() );
     }
 
 }

@@ -15,6 +15,14 @@ trait MemoizeTrait {
 
     /**
      * @param string $key
+     * @return bool
+     */
+    protected static function isMemoizedStatic( string $key ): bool {
+        return Memoize::isMemoized( static::class, $key );
+    }
+
+    /**
+     * @param string $key
      * @param callable $provider
      *
      * @return mixed
@@ -28,6 +36,14 @@ trait MemoizeTrait {
      */
     protected static function unmemoizeStatic( string $key ): void {
         Memoize::unmemoize( static::class, $key );
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    protected function isMemoized( string $key ): bool {
+        return Memoize::isMemoized( $this, $key );
     }
 
     /**
