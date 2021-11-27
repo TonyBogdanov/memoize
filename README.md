@@ -19,35 +19,32 @@ class ClassUsingCaching {
     use \TonyBogdanov\Memoize\Traits\MemoizeTrait;
 
     public static function getClassLevelCachedThing() {
-
         return static::memoizeStatic( __METHOD__, function () {
-
-            // heavy code that needs to run only once per class.
-            return 'thing';
-
+            return 'thing'; // heavy code that needs to run only once per class.
         } );
-    
     }
 
     public function getObjectLevelCachedThing() {
-
         return $this->memoize( __METHOD__, function () {
-
-            // heavy code that needs to run only once per object instance.
-            return 'thing';
-
+            return 'thing'; // heavy code that needs to run only once per object instance.
         } );
-    
     }
 
 }
 ```
 
-You can also manually removed memoized values:
+You can also manually remove memoized values:
 
 ```php
 StaticClass::unmemoizeStatic( 'key' );
 $object->unmemoize( 'key' );
+```
+
+You can even check if a memoized value exists without retrieving it (even if it's `null`):
+
+```php
+StaticClass::isMemoizedStatic( 'key' );
+$object->isMemoized( 'key' );
 ```
 
 You can also toggle memoization globally, which can be useful for testing:
