@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1638349076">
-  <project timestamp="1638349076">
+<coverage generated="1666351055">
+  <project timestamp="1666351055">
     <file name="/home/runner/work/memoize/memoize/src/Exceptions/UnknownOwnerException.php">
       <class name="TonyBogdanov\Memoize\Exceptions\UnknownOwnerException" namespace="global">
         <metrics complexity="3" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </class>
-      <metrics loc="26" ncloc="14" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="27" ncloc="15" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/home/runner/work/memoize/memoize/src/Memoize.php">
       <class name="TonyBogdanov\Memoize\Memoize" namespace="global">
-        <metrics complexity="23" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="48" coveredelements="48"/>
+        <metrics complexity="23" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="39" elements="45" coveredelements="45"/>
       </class>
       <line num="27" type="method" name="owner" visibility="private" complexity="4" crap="4" count="30"/>
       <line num="29" type="stmt" count="30"/>
@@ -19,10 +19,8 @@
       <line num="37" type="stmt" count="1"/>
       <line num="41" type="method" name="enable" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="42" type="stmt" count="1"/>
-      <line num="43" type="stmt" count="1"/>
       <line num="45" type="method" name="disable" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="46" type="stmt" count="2"/>
-      <line num="47" type="stmt" count="2"/>
       <line num="54" type="method" name="isMemoized" visibility="public" complexity="6" crap="6" count="27"/>
       <line num="56" type="stmt" count="27"/>
       <line num="57" type="stmt" count="2"/>
@@ -58,14 +56,13 @@
       <line num="128" type="stmt" count="9"/>
       <line num="129" type="stmt" count="9"/>
       <line num="131" type="stmt" count="9"/>
-      <line num="133" type="stmt" count="9"/>
-      <metrics loc="135" ncloc="107" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="48" coveredelements="48"/>
+      <metrics loc="136" ncloc="108" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="39" elements="45" coveredelements="45"/>
     </file>
     <file name="/home/runner/work/memoize/memoize/src/Traits/MemoizeTrait.php">
       <class name="TonyBogdanov\Memoize\Traits\MemoizeTrait" namespace="global">
         <metrics complexity="6" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </class>
-      <metrics loc="69" ncloc="34" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="70" ncloc="35" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/home/runner/work/memoize/memoize/src/VoidMarker.php">
       <class name="TonyBogdanov\Memoize\VoidMarker" namespace="global">
@@ -75,8 +72,8 @@
       <line num="20" type="stmt" count="17"/>
       <line num="21" type="stmt" count="15"/>
       <line num="24" type="stmt" count="17"/>
-      <metrics loc="28" ncloc="19" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="4" coveredelements="4"/>
+      <metrics loc="29" ncloc="20" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="4" coveredelements="4"/>
     </file>
-    <metrics files="4" loc="258" ncloc="174" classes="2" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="45" elements="52" coveredelements="52"/>
+    <metrics files="4" loc="262" ncloc="178" classes="2" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="49" coveredelements="49"/>
   </project>
 </coverage>
