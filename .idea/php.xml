@@ -112,6 +112,7 @@
   <component name="PhpUnit">
     <phpunit_settings>
       <phpunit_by_interpreter interpreter_id="49ec0336-154c-4e3f-8575-2d3d2c923f66" configuration_file_path="/mnt/x/x/memoize/phpunit.xml" custom_loader_path="/mnt/x/x/memoize/vendor/autoload.php" phpunit_phar_path="" use_configuration_file="true" />
+      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/phpunit.xml" custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" use_configuration_file="true" />
     </phpunit_settings>
   </component>
 </project>
