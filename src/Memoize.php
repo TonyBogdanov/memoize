@@ -25,7 +25,6 @@ final class Memoize {
      * @return array
      */
     private static function owner( $owner ): array {
-
         if ( is_object( $owner ) ) {
             return [ get_class( $owner ), WeakReference::create( $owner ) ];
         }
@@ -35,7 +34,6 @@ final class Memoize {
         }
 
         throw new UnknownOwnerException( $owner );
-
     }
 
     public static function enable(): void {
@@ -52,7 +50,6 @@ final class Memoize {
      * @return bool
      */
     public static function isMemoized( $owner = null, string $key = null ): bool {
-
         if ( ! self::$enabled || ! isset( $owner ) ) {
             return false;
         }
@@ -63,7 +60,6 @@ final class Memoize {
         }
 
         return ! isset( $key ) || array_key_exists( $key, self::$storage[ $group ][ $ref ] );
-
     }
 
     /**
@@ -74,7 +70,6 @@ final class Memoize {
      * @return mixed
      */
     public static function memoize( $owner, string $key, callable $provider ) {
-
         if ( ! self::$enabled ) {
             return call_user_func( $provider );
         }
@@ -90,14 +85,11 @@ final class Memoize {
 
         $data = self::$storage[ $group ][ $ref ];
         if ( ! array_key_exists( $key, $data ) ) {
-
             $data[ $key ] = call_user_func( $provider );
             self::$storage[ $group ][ $ref ] = $data;
-
         }
 
         return $data[ $key ];
-
     }
 
     /**
@@ -105,7 +97,6 @@ final class Memoize {
      * @param string|null $key
      */
     public static function unmemoize( $owner = null, string $key = null ): void {
-
         if ( ! isset( $owner ) ) {
             self::$storage = [];
             return;
@@ -129,7 +120,6 @@ final class Memoize {
         unset( $data[ $key ] );
 
         self::$storage[ $group ][ $ref ] = $data;
-
     }
 
 }

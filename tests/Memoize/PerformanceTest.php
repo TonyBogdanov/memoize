@@ -15,7 +15,9 @@ class PerformanceTest extends TestCase {
 
     public function work(): void {
         $v = 10000;
-        while ( 1 < $v ) { $v -= 2; }
+        while ( 1 < $v ) {
+            $v -= 2;
+        }
     }
 
     /**
@@ -24,8 +26,7 @@ class PerformanceTest extends TestCase {
      *
      * @return array
      */
-    public function median( int $iterations, callable ... $callbacks ): array {
-
+    public function median( int $iterations, callable ...$callbacks ): array {
         $callbacksCount = count( $callbacks );
         $result = array_fill( 0, $callbacksCount, 0 );
 
@@ -36,21 +37,18 @@ class PerformanceTest extends TestCase {
         }
 
         return $result;
-
     }
 
     /**
      * @return float
      */
     public function loopNative(): float {
-
         $start = microtime( true );
         for ( $i = 0; $i < 100; $i++ ) {
             call_user_func( [ $this, 'work' ] );
         }
 
         return microtime( true ) - $start;
-
     }
 
     /**
@@ -59,7 +57,6 @@ class PerformanceTest extends TestCase {
      * @return float
      */
     public function loopClass( bool $purge = false ): float {
-
         $start = microtime( true );
 
         for ( $i = 0; $i < 100; $i++ ) {
@@ -71,7 +68,6 @@ class PerformanceTest extends TestCase {
         }
 
         return microtime( true ) - $start;
-
     }
 
     /**
@@ -87,7 +83,6 @@ class PerformanceTest extends TestCase {
      * @return float
      */
     public function loopObject( bool $purge = false ): float {
-
         $start = microtime( true );
         for ( $i = 0; $i < 100; $i++ ) {
             Memoize::memoize( $this, __METHOD__, [ $this, 'work' ] );
@@ -98,7 +93,6 @@ class PerformanceTest extends TestCase {
         }
 
         return microtime( true ) - $start;
-
     }
 
     /**
@@ -109,7 +103,6 @@ class PerformanceTest extends TestCase {
     }
 
     public function testCPU1(): void {
-
         [ $native, $class, $classPurge, $object, $objectPurge ] = $this->median(
             5,
             [ $this, 'loopNative' ],
@@ -129,11 +122,9 @@ class PerformanceTest extends TestCase {
 
         $this->assertGreaterThan( $classPurge, $native * 1.25 );
         $this->assertGreaterThan( $objectPurge, $native * 1.25 );
-
     }
 
     public function testCPU2(): void {
-
         [ $class, $object ] = $this->median(
             1000,
             [ $this, 'loopClass' ],
@@ -142,11 +133,9 @@ class PerformanceTest extends TestCase {
 
         // Memoized do not differ more than 25% of each other.
         $this->assertGreaterThan( max( $class, $object ) / min( $class, $object ), 1.25 );
-
     }
 
     public function testMemoryOverhead(): void {
-
         $provider = function (): array {
             return array_map( function () { return mt_rand( 0, 1024 ); }, array_fill( 0, 1024, 0 ) );
         };
@@ -167,7 +156,6 @@ class PerformanceTest extends TestCase {
 
         // Overhead remains under 10%.
         $this->assertGreaterThan( ( memory_get_usage( true ) - $start - $reference ) / $reference, 0.1 );
-
     }
 
 }
