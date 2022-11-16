@@ -8,5 +8,4 @@ namespace TonyBogdanov\Memoize\Tests\Helper;
  * @package TonyBogdanov\Memoize\Tests\Helper
  */
 class TestClass2 {
-
 }

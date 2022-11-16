@@ -19,8 +19,15 @@ class UnknownOwnerException extends RuntimeException {
      * @param $owner
      */
     public function __construct( $owner ) {
-        parent::__construct( sprintf( 'Unknown owner reference: %1$s.', is_object( $owner ) ?
-            get_class( $owner ) : ( is_array( $owner ) ? '(array) ...' : var_export( $owner, true ) ) ) );
+        if ( is_object( $owner ) ) {
+            $owner = get_class( $owner );
+        } else if ( is_array( $owner ) ) {
+            $owner = '(array) ...';
+        } else {
+            $owner = var_export( $owner, true );
+        }
+
+        parent::__construct( sprintf( 'Unknown owner reference: %1$s.', $owner ) );
     }
 
 }
